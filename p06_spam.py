@@ -19,12 +19,10 @@ def get_words(message):
        The list of normalized words from the message.
     """
 
-    # *** START CODE HERE ***
     str_list = message.split(' ')
     for i in range(len(str_list)):
         str_list[i] = str_list[i].lower()
     return str_list
-    # *** END CODE HERE ***
 
 def create_dictionary(messages):
     """Create a dictionary mapping words to integer indices.
@@ -42,7 +40,6 @@ def create_dictionary(messages):
         A python dict mapping words to integers.
     """
 
-    # *** START CODE HERE ***
     # count all the word occurance 
     msg_occur = {}
     diction = {}
@@ -60,7 +57,6 @@ def create_dictionary(messages):
             else:
                 msg_occur[j] = 1
     return diction
-    # *** END CODE HERE ***
 
 def transform_text(messages, word_dictionary):
     """Transform a list of text messages into a numpy array for further processing.
@@ -79,7 +75,6 @@ def transform_text(messages, word_dictionary):
     Returns:
         A numpy array marking the words present in each message.
     """
-    # *** START CODE HERE ***
     result = np.zeros((len(messages), len(word_dictionary)))
     for i in range(len(messages)):
         cur_str = get_words(messages[i])
@@ -87,7 +82,6 @@ def transform_text(messages, word_dictionary):
             if cur_str[j] in word_dictionary:
                 result[i][word_dictionary[cur_str[j]]] += 1
     return result
-    # *** END CODE HERE ***
 
 def fit_naive_bayes_model(matrix, labels):
     """Fit a naive bayes model.
@@ -105,7 +99,6 @@ def fit_naive_bayes_model(matrix, labels):
     Returns: The trained model
     """
 
-    # *** START CODE HERE ***
     # each column => a word, last row is total count of y
     # each row => each y value, row 1 => y = 0, row 2 => y = 1
     model = np.zeros((2, matrix.shape[1] + 1))
@@ -137,7 +130,6 @@ def fit_naive_bayes_model(matrix, labels):
     model[0][matrix.shape[1]] /= total_y
     model[1][matrix.shape[1]] /= total_y
     return model
-    # *** END CODE HERE ***
 
 def predict_from_naive_bayes_model(model, matrix):
     """Use a Naive Bayes model to compute predictions for a target matrix.
@@ -151,7 +143,6 @@ def predict_from_naive_bayes_model(model, matrix):
 
     Returns: The trained model
     """
-    # *** START CODE HERE ***
     result = np.zeros(matrix.shape[0])
     for i in range(matrix.shape[0]):
         condiprob_y1 = 0
@@ -166,7 +157,6 @@ def predict_from_naive_bayes_model(model, matrix):
         if condiprob_y1 > condiprob_y0:
             result[i] = 1
     return result
-    # *** END CODE HERE ***
 
 def get_top_five_naive_bayes_words(model, dictionary):
     """Compute the top five words that are most indicative of the spam (i.e positive) class.
@@ -180,7 +170,6 @@ def get_top_five_naive_bayes_words(model, dictionary):
 
     Returns: The top five most indicative words in sorted order with the most indicative first
     """
-    # *** START CODE HERE ***
     result = {}
     arr_min = 0
     arr_min_word = ''
@@ -222,7 +211,6 @@ def get_top_five_naive_bayes_words(model, dictionary):
         indic_word.append(cur_max_word)
         del result[cur_max_word]
     return indic_word
-    # *** END CODE HERE ***
 
 def compute_best_svm_radius(train_matrix, train_labels, val_matrix, val_labels, radius_to_consider):
     """Compute the optimal SVM radius using the provided training and evaluation datasets.
@@ -242,7 +230,6 @@ def compute_best_svm_radius(train_matrix, train_labels, val_matrix, val_labels, 
     """
     opt_radius = 0
     accuracy = 0
-    # *** START CODE HERE ***
     for i in range(len(radius_to_consider)):
         output = svm.train_and_predict_svm(train_matrix, train_labels, val_matrix, radius_to_consider[i])
         correct = 0
@@ -253,7 +240,6 @@ def compute_best_svm_radius(train_matrix, train_labels, val_matrix, val_labels, 
             opt_radius = radius_to_consider[i]
             accuracy = correct / len(val_labels)
     return opt_radius
-    # *** END CODE HERE ***
 
 def main():
     train_messages, train_labels = util.load_spam_dataset('../data/ds6_train.tsv')
